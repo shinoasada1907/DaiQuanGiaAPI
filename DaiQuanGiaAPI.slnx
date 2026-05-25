@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="DaiQuanGiaAPI/DaiQuanGiaAPI.csproj" />
+  <Project Path="DaiQuanGia.Api/DaiQuanGia.Api.csproj" />
+  <Project Path="DaiQuanGia.Application/DaiQuanGia.Application.csproj" />
+  <Project Path="DaiQuanGia.Domain/DaiQuanGia.Domain.csproj" />
+  <Project Path="DaiQuanGia.Infrastructure/DaiQuanGia.Infrastructure.csproj" />
+  <Project Path="DaiQuanGia.Shared/DaiQuanGia.Shared.csproj" />
 </Solution>

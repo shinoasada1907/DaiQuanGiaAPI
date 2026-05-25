@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaiQuanGia.Application\DaiQuanGia.Application.csproj" />
+    <ProjectReference Include="..\DaiQuanGia.Infrastructure\DaiQuanGia.Infrastructure.csproj" />
+    <ProjectReference Include="..\DaiQuanGia.Shared\DaiQuanGia.Shared.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
