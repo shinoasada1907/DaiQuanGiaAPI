@@ -1,4 +1,4 @@
-using DaiQuanGia.Domain.Common;
+using DaiQuanGia.Shared.Domain;
 
 namespace DaiQuanGia.Domain.Users;
 

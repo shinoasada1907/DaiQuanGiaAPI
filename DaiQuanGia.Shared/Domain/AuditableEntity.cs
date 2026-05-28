@@ -1,4 +1,4 @@
-namespace DaiQuanGia.Domain.Common;
+namespace DaiQuanGia.Shared.Domain;
 
 public abstract class AuditableEntity : Entity
 {

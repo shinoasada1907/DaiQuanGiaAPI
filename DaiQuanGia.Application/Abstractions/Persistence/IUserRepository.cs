@@ -10,5 +10,14 @@ public interface IUserRepository
 
     Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Tạo user mới và hash password thông qua UserManager.
+    /// Tự động commit — không cần gọi IUnitOfWork.SaveChangesAsync sau đó.
+    /// </summary>
+    Task CreateAsync(User user, string password);
+
+    /// <summary>
+    /// Không dùng trực tiếp — dùng CreateAsync(user, password) thay thế.
+    /// </summary>
     void Add(User user);
 }

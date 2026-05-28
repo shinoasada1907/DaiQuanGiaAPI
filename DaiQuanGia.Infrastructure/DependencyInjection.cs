@@ -1,10 +1,12 @@
 using System.Text;
 using DaiQuanGia.Application.Abstractions.Authentication;
 using DaiQuanGia.Application.Abstractions.Persistence;
+using DaiQuanGia.Domain.Users;
 using DaiQuanGia.Infrastructure.Authentication;
 using DaiQuanGia.Infrastructure.Persistence;
 using DaiQuanGia.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,18 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        // Đăng ký ASP.NET Core Identity
+        services.AddIdentityCore<User>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequiredLength = 8;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddRoles<IdentityRole<Guid>>()
+        .AddEntityFrameworkStores<AppDbContext>();
 
         services.AddHttpContextAccessor();
 

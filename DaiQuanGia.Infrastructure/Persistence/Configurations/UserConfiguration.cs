@@ -8,22 +8,11 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        // Override tên bảng từ "AspNetUsers" về "users"
         builder.ToTable("users");
 
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.Id).HasColumnName("id");
-
-        builder.Property(x => x.Email)
-            .HasColumnName("email")
-            .HasMaxLength(255)
-            .IsRequired();
-
-        builder.HasIndex(x => x.Email).IsUnique();
-
-        builder.Property(x => x.PasswordHash)
-            .HasColumnName("password_hash")
-            .IsRequired();
+        // Chỉ config các field TỰ THÊM
+        // Id, Email, PasswordHash, UserName... do IdentityUser quản lý
 
         builder.Property(x => x.FullName)
             .HasColumnName("full_name")

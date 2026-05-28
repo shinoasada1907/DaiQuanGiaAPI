@@ -1,18 +1,19 @@
 using DaiQuanGia.Application.Abstractions.Persistence;
 using DaiQuanGia.Domain.Users;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DaiQuanGia.Infrastructure.Persistence;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
-    : DbContext(options), IUnitOfWork
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IUnitOfWork
 {
-    public DbSet<User> Users => Set<User>();
-
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }

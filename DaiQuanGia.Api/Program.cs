@@ -1,17 +1,11 @@
 using DaiQuanGia.Api.Middlewares;
-using DaiQuanGia.Application.Auth;
-using DaiQuanGia.Application.Auth.Services;
-using DaiQuanGia.Application.Users.Services;
+using DaiQuanGia.Application;
 using DaiQuanGia.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton(
-    builder.Configuration.GetSection("Jwt").Get<AuthOptions>()
-        ?? throw new InvalidOperationException("Jwt configuration is missing."));
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();

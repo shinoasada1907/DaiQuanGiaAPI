@@ -4,4 +4,7 @@
   <Project Path="DaiQuanGia.Domain/DaiQuanGia.Domain.csproj" />
   <Project Path="DaiQuanGia.Infrastructure/DaiQuanGia.Infrastructure.csproj" />
   <Project Path="DaiQuanGia.Shared/DaiQuanGia.Shared.csproj" />
+  <Folder Name="/tests/">
+    <Project Path="tests/DaiQuanGia.UnitTests/DaiQuanGia.UnitTests.csproj" />
+  </Folder>
 </Solution>

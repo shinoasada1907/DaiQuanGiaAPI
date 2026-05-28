@@ -25,16 +25,15 @@ public sealed class AuthService(
             throw new ConflictException("Email already exists.");
         }
 
-        var user = new User(
-            email,
-            passwordService.HashPassword(request.Password),
-            request.FullName.Trim(),
-            NormalizeTimezone(request.Timezone));
+        var user = new User(email, request.FullName.Trim(), NormalizeTimezone(request.Timezone));
+
+        // UserManager.CreateAsync tự hash password và tự commit DB
+        await userRepository.CreateAsync(user, request.Password);
 
         var refreshToken = CreateRefreshToken(user.Id);
         user.AddRefreshToken(refreshToken.Entity);
 
-        userRepository.Add(user);
+        refreshTokenRepository.Add(refreshToken.Entity);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return CreateAuthResponse(user, refreshToken.PlainToken);
@@ -45,7 +44,7 @@ public sealed class AuthService(
         var email = NormalizeEmail(request.Email);
         var user = await userRepository.GetByEmailAsync(email, cancellationToken);
 
-        if (user is null || !passwordService.VerifyPassword(user.PasswordHash, request.Password))
+        if (user is null || !passwordService.VerifyPassword(user.PasswordHash!, request.Password))
         {
             throw new UnauthorizedAppException("Invalid credentials.");
         }
@@ -53,6 +52,7 @@ public sealed class AuthService(
         var refreshToken = CreateRefreshToken(user.Id);
         user.AddRefreshToken(refreshToken.Entity);
 
+        refreshTokenRepository.Add(refreshToken.Entity);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return CreateAuthResponse(user, refreshToken.PlainToken);
@@ -96,7 +96,7 @@ public sealed class AuthService(
     private AuthResponse CreateAuthResponse(User user, string refreshToken)
     {
         var expiresAt = DateTimeOffset.UtcNow.AddMinutes(authOptions.AccessTokenMinutes);
-        var accessToken = jwtTokenService.CreateAccessToken(user.Id, user.Email, user.FullName, expiresAt);
+        var accessToken = jwtTokenService.CreateAccessToken(user.Id, user.Email!, user.FullName, expiresAt);
 
         return new AuthResponse(accessToken, refreshToken, expiresAt);
     }

@@ -481,4 +481,12 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-backend-system-design.md
+# AI assistant artifacts
+.claude/
+.cursor/
+.aider*
+.copilot/
+
+# Markdown docs (project markdown files are kept locally only)
+*.md
+!README.md

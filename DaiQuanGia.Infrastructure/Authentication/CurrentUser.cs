@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using DaiQuanGia.Application.Abstractions.Authentication;
 using DaiQuanGia.Shared.Exceptions;
@@ -14,8 +15,7 @@ public sealed class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICur
     {
         get
         {
-            var value = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)
-                ?? httpContextAccessor.HttpContext?.User.FindFirstValue("sub");
+            var value = httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
             if (Guid.TryParse(value, out var userId))
             {
